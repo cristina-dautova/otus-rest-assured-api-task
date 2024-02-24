@@ -1,5 +1,11 @@
 package ru.otus.pet;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static ru.otus.constats.PetCategory.DOG;
+import static ru.otus.constats.PetStatus.*;
+import static ru.otus.constats.PetTags.BIG;
+import static ru.otus.constats.PetTags.BROWN;
+
 import io.restassured.common.mapper.TypeRef;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,17 +19,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static ru.otus.constats.PetCategory.DOG;
-import static ru.otus.constats.PetStatus.*;
-import static ru.otus.constats.PetTags.BIG;
-import static ru.otus.constats.PetTags.BROWN;
-
 public class FindPetByStatusTest extends BaseTest {
 
   private final PetServiceApi petServiceApi = new PetServiceApi();
 
   private PetDTO pet;
+
+  private static List<Long> getDescendingList(List<Long> petsIds) {
+    List<Long> sortedList = new ArrayList<>(List.copyOf(petsIds));
+    sortedList.sort(Collections.reverseOrder());
+    return sortedList;
+  }
 
   @BeforeEach
   public void createPet() {
@@ -116,12 +122,6 @@ public class FindPetByStatusTest extends BaseTest {
         .isEqualTo(petIdsByStatusSorted);
 
     softAssertions.assertAll();
-  }
-
-  private static List<Long> getDescendingList(List<Long> petsIds) {
-    List<Long> sortedList = new ArrayList<>(List.copyOf(petsIds));
-    sortedList.sort(Collections.reverseOrder());
-    return sortedList;
   }
 
   private PetDTO createPetWithStatus(PetStatus petStatus) {

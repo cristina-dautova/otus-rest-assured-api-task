@@ -1,5 +1,11 @@
 package ru.otus.pet;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static ru.otus.constats.PetCategory.CAT;
+import static ru.otus.constats.PetCategory.DOG;
+import static ru.otus.constats.PetTags.BIG;
+import static ru.otus.constats.PetTags.BROWN;
+
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,12 +15,6 @@ import ru.otus.constats.PetStatus;
 import ru.otus.models.pet.PetDTO;
 
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static ru.otus.constats.PetCategory.CAT;
-import static ru.otus.constats.PetCategory.DOG;
-import static ru.otus.constats.PetTags.BIG;
-import static ru.otus.constats.PetTags.BROWN;
 
 public class CreatePetTest extends BaseTest {
   private final PetServiceApi petServiceApi = new PetServiceApi();

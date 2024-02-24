@@ -1,10 +1,10 @@
 package ru.otus.client;
 
+import static io.restassured.RestAssured.given;
+
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import ru.otus.models.pet.PetDTO;
-
-import static io.restassured.RestAssured.given;
 
 public class PetServiceApi extends BaseServiceApi {
 
