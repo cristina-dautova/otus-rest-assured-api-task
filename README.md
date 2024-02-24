@@ -1,6 +1,6 @@
 # RestAssured API project for OTUS homework part 3
 
-This is sample UI BDD automation project for https://otus.ru
+This is sample API automation project for https://otus.ru
 
 ## Getting Started
 
