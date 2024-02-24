@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.otus'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation group: 'org.aeonbits.owner', name: 'owner', version: '1.0.12'
+    implementation group: 'org.assertj', name: 'assertj-core', version: '3.25.1'
+    implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.22'
+    implementation group: 'io.rest-assured', name: 'rest-assured', version: '5.4.0'
+    implementation group: 'net.datafaker', name: 'datafaker', version: '2.1.0'
+    implementation group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
+
+}
+
+test {
+    useJUnitPlatform()
+}
