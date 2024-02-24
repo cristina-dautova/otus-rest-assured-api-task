@@ -20,7 +20,7 @@ dependencies {
     implementation group: 'io.rest-assured', name: 'rest-assured', version: '5.4.0'
     implementation group: 'net.datafaker', name: 'datafaker', version: '2.1.0'
     implementation group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
-    implementation("com.puppycrawl.tools:checkstyle:10.3.1")
+    implementation group: 'com.puppycrawl.tools', name: 'checkstyle', version: '10.3.1'
 }
 
 checkstyle {
