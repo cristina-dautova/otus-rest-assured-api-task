@@ -14,6 +14,7 @@ import ru.otus.BaseTest;
 import ru.otus.client.PetServiceApi;
 import ru.otus.constats.PetStatus;
 import ru.otus.models.pet.PetDTO;
+import ru.otus.models.pet.PetDTOBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -125,10 +126,11 @@ public class FindPetByStatusTest extends BaseTest {
   }
 
   private PetDTO createPetWithStatus(PetStatus petStatus) {
-    var pet = PetDTO.builder()
+    var pet = new PetDTOBuilder()
         .name(FAKER.funnyName().name())
         .status(petStatus.getStatus())
         .category(DOG)
+        .photoUrls(List.of(FAKER.avatar().image()))
         .tags(List.of(BIG, BROWN))
         .build();
 

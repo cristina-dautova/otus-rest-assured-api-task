@@ -13,6 +13,7 @@ import ru.otus.BaseTest;
 import ru.otus.client.PetServiceApi;
 import ru.otus.constats.PetStatus;
 import ru.otus.models.pet.PetDTO;
+import ru.otus.models.pet.PetDTOBuilder;
 
 import java.util.List;
 
@@ -23,10 +24,11 @@ public class CreatePetTest extends BaseTest {
 
   @BeforeEach
   public void createPet() {
-    pet = PetDTO.builder()
-        .name(FAKER.funnyName().name())
+    pet = new PetDTOBuilder()
+        .name(FAKER.animal().name())
         .status(PetStatus.AVAILABLE.getStatus())
         .category(DOG)
+        .photoUrls(List.of(FAKER.avatar().image()))
         .tags(List.of(BIG, BROWN))
         .build();
   }
@@ -35,7 +37,7 @@ public class CreatePetTest extends BaseTest {
    * Проверяю создание домашнего животного
    */
 
-  @Test()
+  @Test
   public void addPet() {
 
     var createdPet = petServiceApi.createPet(pet);
@@ -63,13 +65,14 @@ public class CreatePetTest extends BaseTest {
    * Создание домашнего животного c одинаковым айди должно быть запрещено - стирается первая сущность
    */
 
-  @Test()
+  @Test
   public void creatingPetWithSameIdShouldBeRestricted() {
 
-    var pet2 = PetDTO.builder()
+    var pet2 = new PetDTOBuilder()
         .id(pet.getId())
         .name(FAKER.funnyName().name())
         .status(PetStatus.AVAILABLE.getStatus())
+        .photoUrls(List.of(FAKER.avatar().image()))
         .category(CAT)
         .tags(List.of(BROWN))
         .build();

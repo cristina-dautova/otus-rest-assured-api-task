@@ -1,6 +1,19 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.spotbugs.snom:spotbugs-gradle-plugin:6.0.6"
+        classpath group: 'org.yaml', name: 'snakeyaml', version: '2.2'
+    }
+}
+
 plugins {
     id 'java'
     id 'checkstyle'
+    id "com.github.spotbugs" version "6.0.6"
 }
 
 group = 'ru.otus'
