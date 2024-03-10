@@ -6,13 +6,18 @@ import static ru.otus.constats.PetStatus.*;
 import static ru.otus.constats.PetTags.BIG;
 import static ru.otus.constats.PetTags.BROWN;
 
-import io.restassured.common.mapper.TypeRef;
-import org.apache.http.HttpStatus;
+import net.datafaker.Faker;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.otus.BaseTest;
-import ru.otus.client.PetServiceApi;
+import org.junit.jupiter.api.extension.ExtendWith;
+import ru.otus.Preconditions;
+import ru.otus.client.services.ServiceManager;
+import ru.otus.annotations.ApiManager;
+import ru.otus.annotations.Assert;
+import ru.otus.annotations.Precondition;
 import ru.otus.constats.PetStatus;
+import ru.otus.extensions.TestHelperExtension;
 import ru.otus.models.pet.PetDTO;
 import ru.otus.models.pet.PetDTOBuilder;
 
@@ -20,10 +25,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FindPetByStatusTest extends BaseTest {
+@ExtendWith({TestHelperExtension.class})
+public class FindPetByStatusTest {
 
-  private final PetServiceApi petServiceApi = new PetServiceApi();
-
+  private final static Faker FAKER = new Faker();
+  @Precondition
+  private Preconditions preconditions;
+  @ApiManager
+  private ServiceManager serviceManager;
+  @Assert
+  private SoftAssertions softAssertions;
   private PetDTO pet;
 
   private static List<Long> getDescendingList(List<Long> petsIds) {
@@ -44,18 +55,11 @@ public class FindPetByStatusTest extends BaseTest {
   @Test
   public void getCreatedPetByStatus() {
 
-    var petsByStatus = petServiceApi.findPetsByStatus(pet.getStatus());
-
-    var petsByStatusDTO = petsByStatus.body().as(new TypeRef<List<PetDTO>>() {
-    });
+    var petsByStatusDTO = serviceManager.getPetServiceApi().findPetsByStatus(pet.getStatus());
 
     var petIdsByStatus = petsByStatusDTO.stream()
         .map(PetDTO::getId)
         .toList();
-
-    assertThat(petsByStatus.statusCode())
-        .as("Status code comparison")
-        .isEqualTo(HttpStatus.SC_OK);
 
     assertThat(petIdsByStatus)
         .as("Created pet is found by status")
@@ -71,18 +75,11 @@ public class FindPetByStatusTest extends BaseTest {
 
     createPetWithStatus(PENDING);
 
-    var petsByStatus = petServiceApi.findPetsByStatus(PENDING.getStatus(), AVAILABLE.getStatus());
-
-    var petsByStatusDTO = petsByStatus.body().as(new TypeRef<List<PetDTO>>() {
-    });
+    var petsByStatusDTO = serviceManager.getPetServiceApi().findPetsByStatus(PENDING.getStatus(), AVAILABLE.getStatus());
 
     var petsStatus = petsByStatusDTO.stream()
         .map(PetDTO::getStatus)
         .toList();
-
-    assertThat(petsByStatus.statusCode())
-        .as("Status code comparison")
-        .isEqualTo(HttpStatus.SC_OK);
 
     assertThat(petsStatus)
         .as("Pet status list evaluation")
@@ -92,27 +89,20 @@ public class FindPetByStatusTest extends BaseTest {
   }
 
   /***
-   * Проверяю правильность сортировки. Если в 1м тесте свежесозданная сущность возвращается
+   * BUG: Проверяю правильность сортировки. Если в 1м тесте свежесозданная сущность возвращается
    * по GET /pet/findPetsByStatus, то новые сущности должны быть в начале списка
    */
 
   @Test
   public void sortingShouldBeDescendingInGetPetByStatus() {
 
-    var petsByStatus = petServiceApi.findPetsByStatus(pet.getStatus());
-
-    var petsByStatusDTO = petsByStatus.body().as(new TypeRef<List<PetDTO>>() {
-    });
+    var petsByStatusDTO = serviceManager.getPetServiceApi().findPetsByStatus(pet.getStatus());
 
     var petIdsByStatus = petsByStatusDTO.stream()
         .map(PetDTO::getId)
         .toList();
 
     var petIdsByStatusSorted = getDescendingList(petIdsByStatus);
-
-    assertThat(petsByStatus.statusCode())
-        .as("Status code comparison")
-        .isEqualTo(HttpStatus.SC_OK);
 
     softAssertions.assertThat(petIdsByStatus)
         .as("List by status returns newly created items")
@@ -121,8 +111,6 @@ public class FindPetByStatusTest extends BaseTest {
     softAssertions.assertThat(petIdsByStatus)
         .as("List by status has descending order")
         .isEqualTo(petIdsByStatusSorted);
-
-    softAssertions.assertAll();
   }
 
   private PetDTO createPetWithStatus(PetStatus petStatus) {
@@ -134,6 +122,6 @@ public class FindPetByStatusTest extends BaseTest {
         .tags(List.of(BIG, BROWN))
         .build();
 
-    return petServiceApi.createPet(pet).body().as(PetDTO.class);
+    return preconditions.createPet(pet);
   }
 }

@@ -1,4 +1,4 @@
-package ru.otus.client;
+package ru.otus.client.services;
 
 import static io.restassured.RestAssured.given;
 import static ru.otus.config.LoadConfig.APPLICATION_CONFIG;
