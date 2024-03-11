@@ -21,6 +21,7 @@ public class PetServiceApi extends BaseServiceApi {
   private static final String FIND_BY_STATUS_ENDPOINT = "/pet/findByStatus";
 
   public PetServiceApi(PetServiceApi petServiceApi) {
+    this.requestSpecification = petServiceApi.requestSpecification;
   }
 
   public PetDTO createPet(PetDTO pet) {

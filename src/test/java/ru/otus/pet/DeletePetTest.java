@@ -8,14 +8,10 @@ import static ru.otus.rest.utils.ValidationHelper.getError;
 
 import net.datafaker.Faker;
 import org.apache.http.HttpStatus;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import ru.otus.Preconditions;
 import ru.otus.client.services.ServiceManager;
 import ru.otus.annotations.ApiManager;
-import ru.otus.annotations.Assert;
-import ru.otus.annotations.Precondition;
 import ru.otus.constats.PetStatus;
 import ru.otus.extensions.TestHelperExtension;
 import ru.otus.models.pet.PetDTOBuilder;

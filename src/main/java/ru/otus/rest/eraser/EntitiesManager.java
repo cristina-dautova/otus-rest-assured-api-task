@@ -15,6 +15,8 @@ public class EntitiesManager {
   private List<String> eraseErrorMessages = new ArrayList<>();
 
   public EntitiesManager(EntitiesManager entitiesManager) {
+    this.eraseMethodEntitiesCollection.addAll(entitiesManager.eraseMethodEntitiesCollection);
+    this.eraseErrorMessages = new ArrayList<>(entitiesManager.eraseErrorMessages);
   }
 
   public void addEraseMethodToMethodCollection(EraseMethod method) {
