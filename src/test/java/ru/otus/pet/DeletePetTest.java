@@ -26,12 +26,8 @@ import java.util.List;
 public class DeletePetTest {
 
   private final static Faker FAKER = new Faker();
-  @Precondition
-  private Preconditions preconditions;
   @ApiManager
   private ServiceManager serviceManager;
-  @Assert
-  private SoftAssertions softAssertions;
 
   /***
    * Невозможно удалить несуществующего кота, проверяю статус код, а также пример с методом getError()

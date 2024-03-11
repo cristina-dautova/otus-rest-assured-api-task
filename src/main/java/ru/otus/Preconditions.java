@@ -23,11 +23,8 @@ public class Preconditions {
 
   public PetDTO createPet(PetDTO pet) {
     var createdPet = serviceManager.getPetServiceApi().createPet(pet);
-
-    entitiesManager.addEraseMethodToMethodCollection(() -> {
-      serviceManager.getPetServiceApi().deletePetById(createdPet.getId());
-    });
-
+    entitiesManager
+        .addEraseMethodToMethodCollection(() -> serviceManager.getPetServiceApi().deletePetById(createdPet.getId()));
     return createdPet;
   }
 }

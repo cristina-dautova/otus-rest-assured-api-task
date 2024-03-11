@@ -50,7 +50,7 @@ public class PetDTO {
     this.id = id;
     this.category = (category != null) ? new Category(category.getId(), category.getName()) : null;
     this.name = name;
-    this.photoUrls = new ArrayList<>(photoUrls);;
+    this.photoUrls = new ArrayList<>(photoUrls);
     this.tags = new ArrayList<>(tags);
     this.status = status;
   }

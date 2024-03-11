@@ -10,6 +10,6 @@ public class ServiceManager {
   }
 
   public ServiceManager() {
-    this.petServiceApi = new PetServiceApi();;
+    this.petServiceApi = new PetServiceApi();
   }
 }
