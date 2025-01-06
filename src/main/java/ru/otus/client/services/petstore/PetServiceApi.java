@@ -1,20 +1,16 @@
-package ru.otus.client.services;
+package ru.otus.client.services.petstore;
 
 import static io.restassured.RestAssured.given;
 
 import io.restassured.common.mapper.TypeRef;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 import lombok.NoArgsConstructor;
-import org.apache.http.HttpStatus;
 import ru.otus.models.pet.DeletePetResponseDTO;
 import ru.otus.models.pet.PetDTO;
-import ru.otus.rest.exceptions.HandledFailure;
 
 import java.util.List;
 
 @NoArgsConstructor
-public class PetServiceApi extends BaseServiceApi {
+public class PetServiceApi extends BasePetStoreServiceApi {
 
   private static final String ADD_PET_ENDPOINT = "/pet";
   private static final String PET_PET_ID_ENDPOINT = "/pet/{petId}";
@@ -90,20 +86,5 @@ public class PetServiceApi extends BaseServiceApi {
     return processResponse(response, new TypeRef<>() {
     });
 
-  }
-
-  public <T> T processResponse(ExtractableResponse<Response> response, TypeRef<T> responseType) {
-    if (!isFailure(response)) {
-      return response.body().as(responseType);
-    } else {
-      throw new HandledFailure(response);
-    }
-  }
-
-  public boolean isFailure(ExtractableResponse<Response> response) {
-    var statusCode = response.statusCode();
-    return statusCode == HttpStatus.SC_MOVED_PERMANENTLY
-        || statusCode > HttpStatus.SC_SEE_OTHER
-        || statusCode < HttpStatus.SC_OK;
   }
 }

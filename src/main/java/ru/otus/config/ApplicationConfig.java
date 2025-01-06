@@ -8,4 +8,7 @@ public interface ApplicationConfig extends Config {
 
   @Key("baseUrl")
   String baseUrl();
+
+  @Key("petStoreUrl")
+  String petStoreUrl();
 }
