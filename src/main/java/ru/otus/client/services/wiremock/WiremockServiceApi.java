@@ -3,9 +3,12 @@ package ru.otus.client.services.wiremock;
 import static io.restassured.RestAssured.given;
 
 import io.restassured.common.mapper.TypeRef;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
 import lombok.NoArgsConstructor;
 import ru.otus.models.wiremock.CourseDTO;
 import ru.otus.models.wiremock.ScoreDTO;
+
 import java.util.List;
 
 @NoArgsConstructor
@@ -20,34 +23,37 @@ public class WiremockServiceApi extends BaseWiremockServiceApi {
   }
 
   public ScoreDTO getScoreByUserId(Integer userId) {
-
-    var response = given(requestSpecification)
-        .basePath(GET_SCORE_BY_USER_ID_ENDPOINT)
-        .pathParam("id", userId)
-        .when()
-        .get()
-        .then()
-        .log()
-        .all()
-        .extract();
-
+    var response = getValidatableResponseScoreByUserId(userId).extract();
     return processResponse(response, new TypeRef<>() {
     });
   }
 
+  public ValidatableResponse getValidatableResponseScoreByUserId(Integer userId) {
+    return getValidatableResponseGetMethod(given(requestSpecification)
+        .basePath(GET_SCORE_BY_USER_ID_ENDPOINT)
+        .pathParam("id", userId));
+  }
+
   public List<CourseDTO> getAllCourses() {
 
-    var response = given(requestSpecification)
-        .basePath(GET_ALL_COURSES_ENDPOINT)
+    var response = getValidatableResponseGetMethod(given(requestSpecification)
+        .basePath(GET_ALL_COURSES_ENDPOINT))
+        .extract();
+    return processResponse(response, new TypeRef<>() {
+    });
+  }
+
+  private ValidatableResponse getValidatableResponseGetMethod(RequestSpecification requestSpecification) {
+    return requestSpecification
         .when()
         .get()
         .then()
         .log()
-        .all()
-        .extract();
+        .all();
+  }
 
-    return processResponse(response, new TypeRef<>() {
-    });
-
+  public ValidatableResponse getWiremockServiceValidatableResponse(String endpoint) {
+    return getValidatableResponseGetMethod(given(requestSpecification)
+        .basePath(endpoint));
   }
 }
