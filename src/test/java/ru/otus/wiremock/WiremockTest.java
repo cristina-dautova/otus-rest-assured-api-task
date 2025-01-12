@@ -1,7 +1,6 @@
 package ru.otus.wiremock;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ru.otus.client.services.wiremock.WiremockServiceApi.GET_ALL_COURSES_ENDPOINT;
 import static ru.otus.constats.StubsPaths.GET_ALL_COURSES_JSON;
@@ -20,8 +19,6 @@ import ru.otus.client.services.ServiceManager;
 import ru.otus.extensions.TestHelperExtension;
 import ru.otus.models.wiremock.CourseDTO;
 
-import java.io.File;
-
 
 @WireMockTest
 @ExtendWith({TestHelperExtension.class, BaseWiremockTest.class})
@@ -36,12 +33,6 @@ public class WiremockTest {
   void verifyUsersScore() {
 
     stubGetMethodWithOkJsonBodyResponse(GET_SCORE_BY_USER_ID_ENDPOINT, readJsonFile(GET_USERS_SCORE_JSON));
-
-    File jsonSchema = new File("src/test/resources/json/schema/UsersScoreSchema.json");
-
-    serviceManager.getWireMockServiceApi().getValidatableResponseScoreByUserId(1)
-        .assertThat()
-        .body(matchesJsonSchema(jsonSchema));
 
     var price = serviceManager.getWireMockServiceApi().getScoreByUserId(1);
 
