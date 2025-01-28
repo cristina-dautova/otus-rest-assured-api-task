@@ -8,6 +8,7 @@ import io.restassured.specification.RequestSpecification;
 import lombok.NoArgsConstructor;
 import ru.otus.models.wiremock.CourseDTO;
 import ru.otus.models.wiremock.ScoreDTO;
+import ru.otus.models.wiremock.UserDTO;
 
 import java.util.List;
 
@@ -55,5 +56,14 @@ public class WiremockServiceApi extends BaseWiremockServiceApi {
   public ValidatableResponse getWiremockServiceValidatableResponse(String endpoint) {
     return getValidatableResponseGetMethod(given(requestSpecification)
         .basePath(endpoint));
+  }
+
+  public UserDTO getAllUsers() {
+
+    var response = getValidatableResponseGetMethod(given(requestSpecification)
+        .basePath(GET_ALL_USERS_ENDPOINT))
+        .extract();
+    return processResponse(response, new TypeRef<>() {
+    });
   }
 }
