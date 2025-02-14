@@ -22,11 +22,9 @@ timeout(time: 30, unit: 'MINUTES') {
         }
 
         stage('Build Docker Image') {
-            steps {
                 script {
                     docker.build("${IMAGE_NAME}")
                 }
-            }
         }
 
         stage('Run Tests in Docker') {
