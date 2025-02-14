@@ -30,9 +30,10 @@ timeout(time: 30, unit: 'MINUTES') {
 
         stage('Publish allure report') {
             allure ([
-                    includeProperties: false,
+                    includeProperties: true,
                     jdk: '',
-                    results: './build/allure-results',
+                    properties: [],
+                    results: [[path: 'build/allure-results']],
                     reportBuildPolicy: 'ALWAYS'
             ])
         }
