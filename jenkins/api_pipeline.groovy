@@ -30,8 +30,7 @@ timeout(time: 30, unit: 'MINUTES') {
         }
 
         stage('Run Tests in Docker') {
-            steps {
-                script {
+
                     status = sh(
                             script: """
                             docker run --rm --name ${CONTAINER_NAME} ${IMAGE_NAME}
@@ -42,19 +41,16 @@ timeout(time: 30, unit: 'MINUTES') {
                     if (status > 0) {
                         currentBuild.result = 'UNSTABLE'
                     }
-                }
-            }
+
         }
 
         stage('Generate Allure Report') {
-            steps {
                 script {
                     sh """
                         docker cp ${CONTAINER_NAME}:/app/build/allure-results ./build/allure-results || true
                         allure generate allure-results --clean -o allure-report
                     """
                 }
-            }
         }
 //        stage('Running UI tests') {
 //
