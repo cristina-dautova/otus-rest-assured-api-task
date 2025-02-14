@@ -16,17 +16,57 @@ timeout(time: 30, unit: 'MINUTES') {
 //        utils = load './tools/utils'
 //        utils.prepare_yaml_config
 
-        stage('Running UI tests') {
+        environment {
+            IMAGE_NAME = "java-tests"
+            CONTAINER_NAME = "java-tests-container"
+        }
 
-            status = sh(
-                    script: "gradle test",
-                    returnStatus: true
-            )
-
-            if (status > 0) {
-                currentBuild.result = 'UNSTABLE'
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${IMAGE_NAME}")
+                }
             }
         }
+
+        stage('Run Tests in Docker') {
+            steps {
+                script {
+                    status = sh(
+                            script: """
+                            docker run --rm --name ${CONTAINER_NAME} ${IMAGE_NAME}
+                        """,
+                            returnStatus: true
+                    )
+
+                    if (status > 0) {
+                        currentBuild.result = 'UNSTABLE'
+                    }
+                }
+            }
+        }
+
+        stage('Generate Allure Report') {
+            steps {
+                script {
+                    sh """
+                        docker cp ${CONTAINER_NAME}:/app/build/allure-results ./build/allure-results || true
+                        allure generate allure-results --clean -o allure-report
+                    """
+                }
+            }
+        }
+//        stage('Running UI tests') {
+//
+//            status = sh(
+//                    script: "gradle test",
+//                    returnStatus: true
+//            )
+//
+//            if (status > 0) {
+//                currentBuild.result = 'UNSTABLE'
+//            }
+//        }
 
         stage('Publish allure report') {
             allure ([
@@ -36,6 +76,14 @@ timeout(time: 30, unit: 'MINUTES') {
                     results: [[path: 'build/allure-results']],
                     reportBuildPolicy: 'ALWAYS'
             ])
+        }
+
+        post {
+            always {
+                script {
+                    sh "docker rm -f ${CONTAINER_NAME} || true"
+                }
+            }
         }
     }
 }
