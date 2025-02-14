@@ -3,6 +3,9 @@ timeout(time: 30, unit: 'MINUTES') {
 
     node('gradle') {
 
+        def IMAGE_NAME = "java-tests"
+        def CONTAINER_NAME = "java-tests-container"
+
         stage('Checkout') {
             checkout scm
         }
@@ -16,10 +19,7 @@ timeout(time: 30, unit: 'MINUTES') {
 //        utils = load './tools/utils'
 //        utils.prepare_yaml_config
 
-        environment {
-            IMAGE_NAME = "java-tests"
-            CONTAINER_NAME = "java-tests-container"
-        }
+
 
         stage('Build Docker Image') {
                 script {
