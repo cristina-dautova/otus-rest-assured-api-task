@@ -24,7 +24,7 @@ timeout(time: 30, unit: 'MINUTES') {
             )
 
             if (status > 0) {
-                currentBuild.status = 'UNSTABLE'
+                currentBuild.result = 'UNSTABLE'
             }
         }
 
