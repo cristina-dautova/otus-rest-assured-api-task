@@ -14,6 +14,7 @@ plugins {
     id 'java'
     id 'checkstyle'
     id "com.github.spotbugs" version "6.0.6"
+    id 'io.qameta.allure' version '2.11.0'
 }
 
 group = 'ru.otus'
@@ -21,6 +22,12 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+apply plugin: "io.qameta.allure"
+
+allure {
+    version = "2.11.0"
 }
 
 dependencies {
@@ -41,6 +48,9 @@ dependencies {
     testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.16'
     implementation group: 'net.sf.saxon', name: 'Saxon-HE', version: '12.5'
     implementation group: 'io.rest-assured', name: 'json-schema-validator', version: '5.5.0'
+
+    implementation group: 'io.qameta.allure', name: 'allure-junit5', version: '2.29.1'
+    implementation group: 'io.qameta.allure', name: 'allure-jax-rs', version: '2.29.1'
 }
 
 checkstyle {
@@ -50,4 +60,5 @@ checkstyle {
 
 test {
     useJUnitPlatform()
+    finalizedBy 'allureReport'
 }

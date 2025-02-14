@@ -30,15 +30,15 @@ timeout(time: 30, unit: 'MINUTES') {
                 currentBuild.status = 'UNSTABLE'
             }
         }
-//
-//        stage('Publish allure report') {
-//            allure ([
-//                    disabled: true,
-//                    includeProperties: false,
-//                    jdk: '',
-//                    report: './target/allure-results',
-//                    reportBuildPolicy: 'ALWAYS'
-//            ])
-//        }
+
+        stage('Publish allure report') {
+            allure ([
+                    disabled: true,
+                    includeProperties: false,
+                    jdk: '',
+                    report: './build/allure-results',
+                    reportBuildPolicy: 'ALWAYS'
+            ])
+        }
     }
 }
