@@ -19,7 +19,7 @@ timeout(time: 30, unit: 'MINUTES') {
 
 
         stage('Validate Dockerfile') {
-            steps {
+
                 script {
 
                     if (!fileExists('Dockerfile')) {
@@ -34,7 +34,7 @@ timeout(time: 30, unit: 'MINUTES') {
 
                     echo "Dockerfile validation passed"
                 }
-            }
+
         }
 
         stage('Run Tests') {
