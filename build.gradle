@@ -49,11 +49,11 @@ dependencies {
     implementation group: 'net.sf.saxon', name: 'Saxon-HE', version: '12.5'
     implementation group: 'io.rest-assured', name: 'json-schema-validator', version: '5.5.0'
 
-    implementation group: 'io.qameta.allure', name: 'allure-junit5', version: '2.24.0'
-    implementation group: 'io.qameta.allure', name: 'allure-jax-rs', version: '2.24.0'
+    implementation group: 'io.qameta.allure', name: 'allure-junit5', version: '2.16.0'
+    implementation group: 'io.qameta.allure', name: 'allure-jax-rs', version: '2.16.0'
     //implementation group: 'io.qameta.allure', name: 'allure-commandline', version: '2.32.2', ext: 'pom'
     //implementation group: 'io.qameta.allure', name: 'allure-java-commons', version: '2.29.1'
-    runtimeOnly group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.22.1'
+    runtimeOnly group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.7'
 }
 
 checkstyle {
