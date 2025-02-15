@@ -24,7 +24,11 @@ timeout(time: 30, unit: 'MINUTES') {
 
         stage('Verify Allure Results') {
 
-            sh 'ls -la build/reports/tests/test/allure-results || true'
+            sh 'ls -la build/allure-results || true'
+
+            if (fileExists("build/allure-results")) {
+                echo 'allure results exist'
+            }
 
         }
 
@@ -33,7 +37,7 @@ timeout(time: 30, unit: 'MINUTES') {
                     includeProperties: true,
                     jdk: '',
                     properties: [],
-                    results: [[path: 'build/reports/tests/test/allure-results']],
+                    results: [[path: './build/allure-results']],
                     reportBuildPolicy: 'ALWAYS'
             ])
         }
