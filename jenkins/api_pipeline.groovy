@@ -21,14 +21,21 @@ timeout(time: 30, unit: 'MINUTES') {
             sh 'gradle test'
         }
 
+        stage('Verify Allure Results') {
+            script {
+                def allureResultsDir = 'build/allure-results'
+                if (fileExists(allureResultsDir)) {
+                    echo 'Allure results exist'
+                    sh "ls -la ${allureResultsDir}" // List the directory contents
+                } else {
+                    echo 'Allure results do not exist or directory is empty'
+                }
+            }
+        }
 
         stage('Verify Allure Results') {
 
             sh 'ls -la build/allure-results || true'
-
-            if (fileExists("build/allure-results")) {
-                echo 'allure results exist'
-            }
 
         }
 
