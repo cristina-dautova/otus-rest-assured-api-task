@@ -40,12 +40,6 @@ timeout(time: 30, unit: 'MINUTES') {
             }
         }
 
-        stage('Verify Allure Results') {
-
-            sh 'ls -la build/allure-results || true'
-
-        }
-
         stage('Publish allure report') {
             allure ([
                     includeProperties: true,
