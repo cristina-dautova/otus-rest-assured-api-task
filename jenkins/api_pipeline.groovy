@@ -37,8 +37,9 @@ timeout(time: 30, unit: 'MINUTES') {
                     includeProperties: true,
                     jdk: '',
                     properties: [],
-                    results: [[path: './build/allure-results']],
-                    reportBuildPolicy: 'ALWAYS'
+                    results: [[path: 'build/allure-results']],
+                    reportBuildPolicy: 'ALWAYS',
+                    report: 'build/allure-report'
             ])
         }
     }
