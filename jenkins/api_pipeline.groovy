@@ -24,7 +24,7 @@ timeout(time: 30, unit: 'MINUTES') {
 
         stage('Verify Allure Results') {
 
-            sh 'ls -la ./build/allure-results || true'
+            sh 'ls -la build/reports/allure-results || true'
 
         }
 
@@ -33,7 +33,7 @@ timeout(time: 30, unit: 'MINUTES') {
                     includeProperties: true,
                     jdk: '',
                     properties: [],
-                    results: [[path: 'build/allure-results']],
+                    results: [[path: 'build/reports/allure-results']],
                     reportBuildPolicy: 'ALWAYS'
             ])
         }
