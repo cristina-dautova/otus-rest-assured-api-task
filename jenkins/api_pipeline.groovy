@@ -38,7 +38,7 @@ timeout(time: 30, unit: 'MINUTES') {
         }
 
         stage('Run Tests') {
-                sh 'mvn clean test'
+                sh 'gradle test'
         }
 
 
