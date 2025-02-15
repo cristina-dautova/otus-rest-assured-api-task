@@ -3,9 +3,6 @@ timeout(time: 30, unit: 'MINUTES') {
 
     node('gradle') {
 
-        def IMAGE_NAME = "java-tests"
-        def CONTAINER_NAME = "java-tests-container"
-
         stage('Checkout') {
             checkout scm
         }
@@ -21,34 +18,34 @@ timeout(time: 30, unit: 'MINUTES') {
 
 
 
-        stage('Build Docker Image') {
+        stage('Validate Dockerfile') {
+            steps {
                 script {
-                    docker.build("${IMAGE_NAME}")
-                }
-        }
 
-        stage('Run Tests in Docker') {
-
-                    status = sh(
-                            script: """
-                            docker run --rm --name ${CONTAINER_NAME} ${IMAGE_NAME}
-                        """,
-                            returnStatus: true
-                    )
-
-                    if (status > 0) {
-                        currentBuild.result = 'UNSTABLE'
+                    if (!fileExists('Dockerfile')) {
+                        error "Dockerfile not found in the repository root"
                     }
 
+                    def dockerfile = readFile('Dockerfile')
+
+                    if (!dockerfile.toLowerCase().trim().contains('from ')) {
+                        error "Dockerfile validation failed: No source image provided with FROM instruction"
+                    }
+
+                    echo "Dockerfile validation passed"
+                }
+            }
         }
 
-        stage('Generate Allure Report') {
-                script {
-                    sh """
-                        docker cp ${CONTAINER_NAME}:/app/build/allure-results ./build/allure-results || true
-                        allure generate allure-results --clean -o allure-report
-                    """
-                }
+        stage('Run Tests') {
+                sh 'mvn clean test'
+        }
+
+
+        stage('Verify Allure Results') {
+
+                sh 'ls -la target/allure-results || true'
+
         }
 //        stage('Running UI tests') {
 //
@@ -74,9 +71,10 @@ timeout(time: 30, unit: 'MINUTES') {
 
         post {
             always {
-                script {
-                    sh "docker rm -f ${CONTAINER_NAME} || true"
-                }
+                cleanWs()
+            }
+            failure {
+                echo 'Pipeline failed during Dockerfile validation'
             }
         }
     }
