@@ -1,3 +1,4 @@
+
 timeout(time: 30, unit: 'MINUTES') {
 
     node('gradle') {
@@ -33,7 +34,6 @@ timeout(time: 30, unit: 'MINUTES') {
 
                 echo "Dockerfile validation passed"
             }
-
         }
 
         stage('Run Tests') {
