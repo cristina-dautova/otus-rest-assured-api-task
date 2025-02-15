@@ -26,7 +26,7 @@ timeout(time: 30, unit: 'MINUTES') {
                 def allureResultsDir = 'build/allure-results'
                 if (fileExists(allureResultsDir)) {
                     echo 'Allure results exist'
-                    sh "ls -la ${allureResultsDir}" // List the directory contents
+                    sh "ls -la ${allureResultsDir}"
                 } else {
                     echo 'Allure results do not exist or directory is empty'
                 }
