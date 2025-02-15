@@ -51,6 +51,7 @@ dependencies {
 
     implementation group: 'io.qameta.allure', name: 'allure-junit5', version: '2.29.1'
     implementation group: 'io.qameta.allure', name: 'allure-jax-rs', version: '2.29.1'
+    implementation group: 'io.qameta.allure', name: 'allure-commandline', version: '2.32.0', ext: 'pom'
 }
 
 checkstyle {
