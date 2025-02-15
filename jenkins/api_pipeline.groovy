@@ -18,7 +18,14 @@ timeout(time: 30, unit: 'MINUTES') {
 
 
         stage('Run Tests') {
-            sh 'gradle test'
+            status = sh(
+                    script: "gradle test",
+                    returnStatus: true
+            )
+
+            if (status > 0) {
+                currentBuild.result = 'UNSTABLE'
+            }
         }
 
         stage('Verify Allure Results') {
