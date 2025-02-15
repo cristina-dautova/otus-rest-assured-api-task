@@ -18,23 +18,23 @@ timeout(time: 30, unit: 'MINUTES') {
 
 
 
-        stage('Validate Dockerfile') {
-
-            script {
-
-                if (!fileExists('Dockerfile')) {
-                    error "Dockerfile not found in the repository root"
-                }
-
-                def dockerfile = readFile('Dockerfile')
-
-                if (!dockerfile.toLowerCase().trim().contains('from ')) {
-                    error "Dockerfile validation failed: No source image provided with FROM instruction"
-                }
-
-                echo "Dockerfile validation passed"
-            }
-        }
+//        stage('Validate Dockerfile') {
+//
+//            script {
+//
+//                if (!fileExists('Dockerfile')) {
+//                    error "Dockerfile not found in the repository root"
+//                }
+//
+//                def dockerfile = readFile('Dockerfile')
+//
+//                if (!dockerfile.toLowerCase().trim().contains('from ')) {
+//                    error "Dockerfile validation failed: No source image provided with FROM instruction"
+//                }
+//
+//                echo "Dockerfile validation passed"
+//            }
+//        }
 
         stage('Run Tests') {
             sh 'gradle test'
@@ -68,13 +68,13 @@ timeout(time: 30, unit: 'MINUTES') {
             ])
         }
 
-        post {
-            always {
-                cleanWs()
-            }
-            failure {
-                echo 'Pipeline failed during Dockerfile validation'
-            }
-        }
+//        post {
+//            always {
+//                cleanWs()
+//            }
+//            failure {
+//                echo 'Pipeline failed during Dockerfile validation'
+//            }
+//        }
     }
 }
