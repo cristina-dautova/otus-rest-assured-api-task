@@ -17,25 +17,6 @@ timeout(time: 30, unit: 'MINUTES') {
 //        utils.prepare_yaml_config
 
 
-
-//        stage('Validate Dockerfile') {
-//
-//            script {
-//
-//                if (!fileExists('Dockerfile')) {
-//                    error "Dockerfile not found in the repository root"
-//                }
-//
-//                def dockerfile = readFile('Dockerfile')
-//
-//                if (!dockerfile.toLowerCase().trim().contains('from ')) {
-//                    error "Dockerfile validation failed: No source image provided with FROM instruction"
-//                }
-//
-//                echo "Dockerfile validation passed"
-//            }
-//        }
-
         stage('Run Tests') {
             sh 'gradle test'
         }
@@ -43,20 +24,9 @@ timeout(time: 30, unit: 'MINUTES') {
 
         stage('Verify Allure Results') {
 
-            sh 'ls -la build/allure-results || true'
+            sh 'ls -la ./build/allure-results || true'
 
         }
-//        stage('Running UI tests') {
-//
-//            status = sh(
-//                    script: "gradle test",
-//                    returnStatus: true
-//            )
-//
-//            if (status > 0) {
-//                currentBuild.result = 'UNSTABLE'
-//            }
-//        }
 
         stage('Publish allure report') {
             allure ([
@@ -67,14 +37,5 @@ timeout(time: 30, unit: 'MINUTES') {
                     reportBuildPolicy: 'ALWAYS'
             ])
         }
-
-//        post {
-//            always {
-//                cleanWs()
-//            }
-//            failure {
-//                echo 'Pipeline failed during Dockerfile validation'
-//            }
-//        }
     }
 }
