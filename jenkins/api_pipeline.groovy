@@ -16,8 +16,8 @@ timeout(time: 30, unit: 'MINUTES') {
 
         }
 
-        utils = load './jenkins/utils.groovy'
-        utils.prepare_yaml_config
+        def utils = load './jenkins/utils.groovy'
+        utils.prepare_yaml_config()
 
 
         stage('Run Tests') {
