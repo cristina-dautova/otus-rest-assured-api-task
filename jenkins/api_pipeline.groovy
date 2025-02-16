@@ -8,7 +8,7 @@ timeout(time: 30, unit: 'MINUTES') {
         }
 
         stage('Checkout utils') {
-            dir('utils') {
+            dir('jenkins') {
                 git branch: 'main', url: 'https://github.com/cristina-dautova/otus-test-runner.git', credentialId: 'jenkins'
             }
         }
