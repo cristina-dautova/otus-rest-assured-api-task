@@ -8,12 +8,15 @@ timeout(time: 30, unit: 'MINUTES') {
         }
 
         stage('Checkout utils') {
-            dir('jenkins') {
                 git branch: 'main', url: 'https://github.com/cristina-dautova/otus-test-runner.git', credentialId: 'jenkins'
+
+            script {
+                sh 'ls -la jenkins'
             }
+
         }
 
-        utils = load './jenkins/utils'
+        utils = load './jenkins/utils.groovy'
         utils.prepare_yaml_config
 
 
